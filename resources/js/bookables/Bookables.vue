@@ -1,8 +1,16 @@
 <template>
   <div>
-    <BookableListItem :title="bookable1.title" :content="bookable1.content" :price="1000"></BookableListItem>
-    <BookableListItem :title="bookable2.title" :content="bookable2.content" :price="2000"></BookableListItem>
-    <BookableListItem title="title3" content="content3" v-bind:price="3000"></BookableListItem>
+    <div v-if="loading">
+      <p>Data is Loading...</p>
+    </div>
+    <div v-else>
+      <div class="row mb-4" v-for="row in rows" :key="'row'+row">
+        <div class="col" v-for="(bookable,column) in bookablesInRow(row)" :key="'row'+row+column">
+          <BookableListItem :title="bookable.title" :content="bookable.content" :price="1000"></BookableListItem>
+        </div>
+        <div class="col" v-for="p in placeholdersInRow(row)" :key="'place'+row + p"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,54 +27,99 @@ export default {
   data() {
     return {
       //state
-      bookable1: null,
-      bookable2: null,
-      bookable3: null
+      bookables: null,
+      loading: false,
+      columns: 3
     };
   },
-  beforeCreate() {
-    console.log("Before create");
+
+  //computed properties...
+  computed: {
+    rows() {
+      return this.bookables === null
+        ? 0
+        : Math.ceil(this.bookables.length / this.columns);
+    }
   },
+  methods: {
+    bookablesInRow(row) {
+      return this.bookables.slice((row - 1) * this.columns, row * this.columns);
+    },
+    placeholdersInRow(row) {
+      return this.columns - this.bookablesInRow(row).length;
+    }
+  },
+  //   beforeCreate() {
+  //     console.log("Before create");
+  //   },
 
   created() {
-    console.log("Created");
+    // console.log("Created");
     //usually fetch data in this hook....
-    console.log(this.bookable1);
-    console.log(this.bookable2);
-    setTimeout(() => {
-      this.bookable1 = {
-        title: "title111",
-        content: "content111"
-      };
-      this.bookable2 = {
-        title: "titl222",
-        content: "content222"
-      };
-      this.bookable3 = {
-        title: "titl333",
-        content: "content333"
-      };
-    }, 2000);
+    // console.log(this.bookable1);
+    // console.log(this.bookable2);
+    (this.loading = true),
+      setTimeout(() => {
+        this.bookables = [
+          {
+            id: 1,
+            title: "room1",
+            content: "content1"
+          },
+          {
+            id: 2,
+            title: "room2",
+            content: "content2"
+          },
+          {
+            id: 3,
+            title: "room2",
+            content: "content2"
+          },
+          {
+            id: 4,
+            title: "room2",
+            content: "content2"
+          },
+          {
+            id: 5,
+            title: "room2",
+            content: "content2"
+          },
+          {
+            id: 6,
+            title: "room2",
+            content: "content2"
+          },
+          {
+            id: 7,
+            title: "room2",
+            content: "content2"
+          }
+        ];
+        this.loading = false;
+      }, 1000);
 
-    setTimeout(() => {
-      this.bookable1.title = "YOu will see this!";
-    }, 2000);
+    // setTimeout(() => {
+    //   this.bookable1.title = "YOu will see this!";
+    // }, 7000);
 
-    setTimeout(() => {
-      this.bookable3.title = "YOu will not see this!";
-    }, 2000);
-  },
-  beforeMount() {
-    console.log("Before mount");
-  },
-  mounted() {
-    console.log("Mounted..");
-  },
-  beforeDestroy() {
-    console.log("Before Destroy");
-  },
-  destroyed() {
-    console.log("Destroyed");
+    // setTimeout(() => {
+    //   this.bookable2.title = "YOu will not see this!";
+    // }, 7000);
   }
+  //   beforeMount() {
+  //     console.log("Before mount");
+  //   },
+  //   mounted() {
+  //     console.log("Mounted..");
+  //   },
+  //   beforeDestroy() {
+  //     console.log("Before Destroy");
+  //   },
+  //   destroyed() {
+  //     console.log("Destroyed");
+  //   }
 };
 </script>
+

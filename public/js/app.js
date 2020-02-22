@@ -1915,6 +1915,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     title: String,
@@ -1948,6 +1950,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1957,54 +1967,85 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       //state
-      bookable1: null,
-      bookable2: null,
-      bookable3: null
+      bookables: null,
+      loading: false,
+      columns: 3
     };
   },
-  beforeCreate: function beforeCreate() {
-    console.log("Before create");
+  //computed properties...
+  computed: {
+    rows: function rows() {
+      return this.bookables === null ? 0 : Math.ceil(this.bookables.length / this.columns);
+    }
   },
+  methods: {
+    bookablesInRow: function bookablesInRow(row) {
+      return this.bookables.slice((row - 1) * this.columns, row * this.columns);
+    },
+    placeholdersInRow: function placeholdersInRow(row) {
+      return this.columns - this.bookablesInRow(row).length;
+    }
+  },
+  //   beforeCreate() {
+  //     console.log("Before create");
+  //   },
   created: function created() {
     var _this = this;
 
-    console.log("Created"); //usually fetch data in this hook....
+    // console.log("Created");
+    //usually fetch data in this hook....
+    // console.log(this.bookable1);
+    // console.log(this.bookable2);
+    this.loading = true, setTimeout(function () {
+      _this.bookables = [{
+        id: 1,
+        title: "room1",
+        content: "content1"
+      }, {
+        id: 2,
+        title: "room2",
+        content: "content2"
+      }, {
+        id: 3,
+        title: "room2",
+        content: "content2"
+      }, {
+        id: 4,
+        title: "room2",
+        content: "content2"
+      }, {
+        id: 5,
+        title: "room2",
+        content: "content2"
+      }, {
+        id: 6,
+        title: "room2",
+        content: "content2"
+      }, {
+        id: 7,
+        title: "room2",
+        content: "content2"
+      }];
+      _this.loading = false;
+    }, 1000); // setTimeout(() => {
+    //   this.bookable1.title = "YOu will see this!";
+    // }, 7000);
+    // setTimeout(() => {
+    //   this.bookable2.title = "YOu will not see this!";
+    // }, 7000);
+  } //   beforeMount() {
+  //     console.log("Before mount");
+  //   },
+  //   mounted() {
+  //     console.log("Mounted..");
+  //   },
+  //   beforeDestroy() {
+  //     console.log("Before Destroy");
+  //   },
+  //   destroyed() {
+  //     console.log("Destroyed");
+  //   }
 
-    console.log(this.bookable1);
-    console.log(this.bookable2);
-    setTimeout(function () {
-      _this.bookable1 = {
-        title: "title111",
-        content: "content111"
-      };
-      _this.bookable2 = {
-        title: "titl222",
-        content: "content222"
-      };
-      _this.bookable3 = {
-        title: "titl333",
-        content: "content333"
-      };
-    }, 2000);
-    setTimeout(function () {
-      _this.bookable1.title = "YOu will see this!";
-    }, 2000);
-    setTimeout(function () {
-      _this.bookable3.title = "YOu will not see this!";
-    }, 2000);
-  },
-  beforeMount: function beforeMount() {
-    console.log("Before mount");
-  },
-  mounted: function mounted() {
-    console.log("Mounted..");
-  },
-  beforeDestroy: function beforeDestroy() {
-    console.log("Before Destroy");
-  },
-  destroyed: function destroyed() {
-    console.log("Destroyed");
-  }
 });
 
 /***/ }),
@@ -37463,10 +37504,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h1", [_vm._v(_vm._s(_vm.title))]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.content))])
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _c("h5", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.title))]),
+      _vm._v(" "),
+      _c("p", { staticClass: "card-text" }, [_vm._v(_vm._s(_vm.content))])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -37491,31 +37534,46 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("BookableListItem", {
-        attrs: {
-          title: _vm.bookable1.title,
-          content: _vm.bookable1.content,
-          price: 1000
-        }
-      }),
-      _vm._v(" "),
-      _c("BookableListItem", {
-        attrs: {
-          title: _vm.bookable2.title,
-          content: _vm.bookable2.content,
-          price: 2000
-        }
-      }),
-      _vm._v(" "),
-      _c("BookableListItem", {
-        attrs: { title: "title3", content: "content3", price: 3000 }
-      })
-    ],
-    1
-  )
+  return _c("div", [
+    _vm.loading
+      ? _c("div", [_c("p", [_vm._v("Data is Loading...")])])
+      : _c(
+          "div",
+          _vm._l(_vm.rows, function(row) {
+            return _c(
+              "div",
+              { key: "row" + row, staticClass: "row mb-4" },
+              [
+                _vm._l(_vm.bookablesInRow(row), function(bookable, column) {
+                  return _c(
+                    "div",
+                    { key: "row" + row + column, staticClass: "col" },
+                    [
+                      _c("BookableListItem", {
+                        attrs: {
+                          title: bookable.title,
+                          content: bookable.content,
+                          price: 1000
+                        }
+                      })
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.placeholdersInRow(row), function(p) {
+                  return _c("div", {
+                    key: "place" + row + p,
+                    staticClass: "col"
+                  })
+                })
+              ],
+              2
+            )
+          }),
+          0
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
