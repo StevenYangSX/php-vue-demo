@@ -1,6 +1,5 @@
 <?php
 
-use App\Bookable;
 use Illuminate\Http\Request;
 
 /*
@@ -19,13 +18,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-//endpoint for getting all bookables
-Route::get('bookables', function( Request $request) {
-    return Bookable::all();
-});
+// //endpoint for getting all bookables
+// Route::get('bookables', function( Request $request) {
+//     return Bookable::all();
+// });
 
 
-//endpoint for getting a single bookable room
-Route::get('bookables/{id}', function (Request $request,$id) {
-    return Bookable::find($id);
-});
+// //endpoint for getting a single bookable room
+// Route::get('bookables/{id}', function (Request $request,$id) {
+//     return Bookable::findOrFail($id);
+// });
+
+// Route::get('bookables','Api\BookableController@index');
+// Route::get('bookables/{id}','Api\BookableController@show');
+
+
+Route::apiResource('bookables','Api\BookableController');

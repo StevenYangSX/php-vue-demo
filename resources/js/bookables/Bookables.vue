@@ -5,8 +5,12 @@
     </div>
     <div v-else>
       <div class="row mb-4" v-for="row in rows" :key="'row'+row">
-        <div class="col" v-for="(bookable,column) in bookablesInRow(row)" :key="'row'+row+column">
-          <BookableListItem :title="bookable.title" :content="bookable.content" :price="1000"></BookableListItem>
+        <div
+          class="col d-flex align-items-stretch"
+          v-for="(bookable,column) in bookablesInRow(row)"
+          :key="'row'+row+column"
+        >
+          <BookableListItem v-bind="bookable"></BookableListItem>
         </div>
         <div class="col" v-for="p in placeholdersInRow(row)" :key="'place'+row + p"></div>
       </div>
@@ -54,59 +58,15 @@ export default {
   //   },
 
   created() {
-    // console.log("Created");
     //usually fetch data in this hook....
-    // console.log(this.bookable1);
-    // console.log(this.bookable2);
-    (this.loading = true),
-      setTimeout(() => {
-        this.bookables = [
-          {
-            id: 1,
-            title: "room1",
-            content: "content1"
-          },
-          {
-            id: 2,
-            title: "room2",
-            content: "content2"
-          },
-          {
-            id: 3,
-            title: "room2",
-            content: "content2"
-          },
-          {
-            id: 4,
-            title: "room2",
-            content: "content2"
-          },
-          {
-            id: 5,
-            title: "room2",
-            content: "content2"
-          },
-          {
-            id: 6,
-            title: "room2",
-            content: "content2"
-          },
-          {
-            id: 7,
-            title: "room2",
-            content: "content2"
-          }
-        ];
-        this.loading = false;
-      }, 1000);
 
-    // setTimeout(() => {
-    //   this.bookable1.title = "YOu will see this!";
-    // }, 7000);
+    this.loading = true;
 
-    // setTimeout(() => {
-    //   this.bookable2.title = "YOu will not see this!";
-    // }, 7000);
+    //API Calls
+    const req = axios.get("/api/bookables").then(response => {
+      this.bookables = response.data.data;
+      this.loading = false;
+    });
   }
   //   beforeMount() {
   //     console.log("Before mount");
