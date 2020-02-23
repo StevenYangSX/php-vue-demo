@@ -13,6 +13,8 @@ import moment from "moment";
 import StarRating from "./shared/components/StarRating";
 
 import FatalError from "./shared/components/FatalError";
+import Vuex from "Vuex";
+import storeDefinition from './store';
 
 window.Vue = require("vue");
 
@@ -37,16 +39,25 @@ window.Vue = require("vue");
  */
 
 Vue.use(VueRouter);
+Vue.use(Vuex);
 
 //register filter globally
 Vue.filter("fromNow", value => moment(value).fromNow());
 
 Vue.component("star-rating", StarRating);
-Vue.component('fatal-error', FatalError);
+Vue.component("fatal-error", FatalError);
+
+
+const store = new Vuex.Store(storeDefinition);
+
 const app = new Vue({
     el: "#app",
     router: router,
+    store: store,
     components: {
         index: Index
+    },
+    beforeCreate() {
+        this.$store.dispatch('loadStoredState');
     }
 });

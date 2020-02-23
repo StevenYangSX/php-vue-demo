@@ -65,8 +65,8 @@ export default {
     },
     data() {
         return {
-            from: null,
-            to: null,
+            from: this.$store.state.lastSearch.from,
+            to: this.$store.state.lastSearch.to,
             loading: false,
             status: null,
             errors: null
@@ -77,6 +77,12 @@ export default {
             //start loading.. and make previous errors null
             this.loading = true;
             this.errors = null;
+
+            //state mutations
+            this.$store.dispatch("setLastSearch", {
+                from: this.from,
+                to: this.to
+            });
             //api call
             axios
                 .get(
