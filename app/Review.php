@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+
+    protected $fillable = ['id', 'content', 'rating'];
+    
     //relationships between models
     public function bookable() {
         return $this->belongsTo(Bookable::class);
