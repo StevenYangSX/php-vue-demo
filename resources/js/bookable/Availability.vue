@@ -69,7 +69,7 @@
 
         <router-link
             class="btn btn-secondary btn-block"
-            :to="'/review/e6103603-820b-4cb0-af07-dab9cf2d4168'"
+            :to="'/review/b9da51e5-52c6-4a40-bcd4-8174ff907fac'"
         >
             Leave Review(测试)
         </router-link>
