@@ -1,7 +1,13 @@
 <template>
     <div>
-        <div v-if="success">You've left a review, thank you very much!</div>
-        <!-- <fatal-error v-if="error"></fatal-error> -->
+        <h5>
+            目前review 测试页面 只针对于民宿 ID=4 的一个未完成点评。
+            并不是针对所选民宿。（注意民宿名链接，并非所选链接，而是4号民宿）
+        </h5>
+        <success v-if="success"
+            >You've left a review, thank you very much!</success
+        >
+        <fatal-error v-if="error"></fatal-error>
         <div class="row" v-if="!success && !error">
             <div :class="[{ 'col-md-4': twoColumns }, { 'd-none': oneColumn }]">
                 <div class="card">
@@ -36,6 +42,7 @@
                     <div v-if="alreadyReviewed">
                         <h3>You've already left a review for this booking!</h3>
                     </div>
+
                     <div v-else>
                         <div class="form-group">
                             <label class="text-muted"
@@ -58,7 +65,6 @@
                                 class="form-control"
                                 v-model="review.content"
                             ></textarea>
-                            <!-- <v-errors :errors="errorFor('content')"></v-errors> -->
                         </div>
 
                         <button
@@ -77,9 +83,8 @@
 
 <script>
 import { is404, is422 } from "./../shared/utils/response";
-// import validationErrors from "./../shared/mixins/validationErrors";
+import starRating from "../shared/components/StarRating";
 export default {
-    //mixins: [validationErrors],
     data() {
         return {
             review: {

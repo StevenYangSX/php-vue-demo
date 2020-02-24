@@ -15,3 +15,7 @@ Route::get('/{any?}', function () {
     return view('welcome');
 })->where('any','^(?!api\/)[\/\w\.-]*');
 //use regular expressions to check if route matches 
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');

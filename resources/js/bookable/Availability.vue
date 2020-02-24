@@ -14,7 +14,7 @@
             <div class="form-group col-md-6">
                 <label for="from">From</label>
                 <input
-                    type="text"
+                    type="date"
                     name="from"
                     class="form-control form-control-sm"
                     placeholder="Start Date"
@@ -30,11 +30,12 @@
                     {{ error }}
                 </div>
             </div>
-
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="to">To</label>
                 <input
-                    type="text"
+                    type="date"
                     name="to"
                     class="form-control form-control-sm"
                     placeholder="End Date"
@@ -51,7 +52,6 @@
                 </div>
             </div>
         </div>
-
         <button
             class="btn btn-secondary btn-block"
             @click="check"
@@ -62,6 +62,17 @@
                 ><i class="fas fa-circle-notch fa-spin"></i>checking...</span
             >
         </button>
+
+        <button class="btn btn-secondary btn-block disabled">
+            Leave Review(开发中。。)
+        </button>
+
+        <router-link
+            class="btn btn-secondary btn-block"
+            :to="'/review/e6103603-820b-4cb0-af07-dab9cf2d4168'"
+        >
+            Leave Review(测试)
+        </router-link>
     </div>
 </template>
 

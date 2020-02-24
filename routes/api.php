@@ -43,5 +43,9 @@ Route::get('bookables/{bookable}/price','Api\BookablePriceController')->name('bo
 
 Route::apiResource('reviews','Api\ReviewController')->only(['show','store']);
 
-Route::get('/booking-by-review/{reviewKey}','Api\BookingByReviewController')->name('booking.by-review.show');
+Route::get('booking-by-review/{reviewKey}','Api\BookingByReviewController')->name('booking.by-review.show');
 
+
+Auth::routes();
+
+Route::get('home', 'HomeController@index')->name('home');

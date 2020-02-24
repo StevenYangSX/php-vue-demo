@@ -11,6 +11,13 @@
                     itemsInBasket
                 }}</span>
             </router-link>
+
+            <!-- <router-link class="btn nav-button" :to="{ name: 'login' }">
+                Login
+            </router-link>
+            <router-link class="btn nav-button" :to="{ name: 'signup' }">
+                Signup
+            </router-link> -->
         </nav>
 
         <div class="container mt-4 mb-4 pr-4 pl-4">

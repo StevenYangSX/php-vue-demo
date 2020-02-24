@@ -3,9 +3,12 @@ import Bookables from "./bookables/Bookables";
 import Bookable from "./bookable/Bookable";
 import VueRouter from "vue-router";
 import Review from "./review/Review";
-import Basket from './basket/Basket';
+import Basket from "./basket/Basket";
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
 
-const routes = [{
+const routes = [
+    {
         path: "/",
         component: Bookables,
         name: "home"
@@ -24,6 +27,16 @@ const routes = [{
         path: "/basket",
         component: Basket,
         name: "basket"
+    },
+    {
+        path: "/login",
+        component: Login,
+        name: "login"
+    },
+    {
+        path: "/signup",
+        component: Signup,
+        name: "signup"
     }
 ];
 
