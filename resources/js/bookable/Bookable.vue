@@ -21,9 +21,26 @@
                 class="mb-4"
             ></Availability>
             <Price v-if="price" :price="price" class="mb-4"></Price>
-            <button class="btn btn-outline-secondary btn-block" v-if="price">
+            <button
+                class="btn btn-outline-secondary btn-block"
+                v-if="price"
+                @click="addToBasket"
+                :disabled="inBasket"
+            >
                 Book Now
             </button>
+
+            <button
+                class="btn btn-outline-secondary btn-block"
+                v-if="inBasket"
+                @click="removeFromBasket"
+            >
+                Remove
+            </button>
+
+            <div v-if="inBasket" class="mt-4 text-muted warning">
+                已经添加过此民宿
+            </div>
         </div>
     </div>
 </template>
@@ -56,9 +73,17 @@ export default {
         //axios.get(`/api`)
     },
 
-    computed: mapState({
-        lastSearch: "lastSearch"
-    }),
+    computed: {
+        ...mapState({
+            lastSearch: "lastSearch"
+        }),
+        inBasket() {
+            if (null === this.bookable) {
+                return false;
+            }
+            return this.$store.getters.inBasket(this.bookable.id);
+        }
+    },
 
     methods: {
         async checkPrice(hasAvailability) {
@@ -81,7 +106,25 @@ export default {
                 console.log("Code got catch block and price is ====>>>");
                 this.price = null;
             }
+        },
+
+        //basket methods
+        addToBasket() {
+            this.$store.dispatch("addToBasket", {
+                bookable: this.bookable,
+                price: this.price,
+                dates: this.lastSearch
+            });
+        },
+        removeFromBasket() {
+            this.$store.dispatch("removeFromBasket", this.bookable.id);
         }
     }
 };
 </script>
+
+<style scoped>
+.warning {
+    font-size: 0.8rem;
+}
+</style>
