@@ -13,7 +13,7 @@ import moment from "moment";
 import StarRating from "./shared/components/StarRating";
 
 import FatalError from "./shared/components/FatalError";
-import Vuex from "Vuex";
+import Vuex from "vuex";
 import storeDefinition from './store';
 
 window.Vue = require("vue");

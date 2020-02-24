@@ -2,8 +2,12 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span v-if="isAvailable" class="text-success">(Available)</span>
-            <span v-if="notAvailable" class="text-danger">(Not Available)</span>
+            <transition name="fade">
+                <span v-if="isAvailable" class="text-success">(Available)</span>
+                <span v-if="notAvailable" class="text-danger"
+                    >(Not Available)</span
+                >
+            </transition>
         </h6>
 
         <div class="form-row">
@@ -53,7 +57,10 @@
             @click="check"
             :disabled="loading"
         >
-            Check
+            <span v-if="!loading">Check</span>
+            <span v-if="loading"
+                ><i class="fas fa-circle-notch fa-spin"></i>checking...</span
+            >
         </button>
     </div>
 </template>
@@ -73,7 +80,7 @@ export default {
         };
     },
     methods: {
-        check() {
+        async check() {
             //start loading.. and make previous errors null
             this.loading = true;
             this.errors = null;
@@ -84,18 +91,34 @@ export default {
                 to: this.to
             });
             //api call
+            // try {
+            //     this.status = await axios.get(
+            //         `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+            //     ).status;
+
+            //     this.$emit("availability", this.isAvailable);
+            // } catch (error) {
+            //     if (422 === error.response.status) {
+            //         this.errors = error.response.data.errors;
+            //     }
+            //     this.status = error.response.status;
+            //     this.$emit("availability", this.isAvailable);
+            // }
+            // this.loading = false;
             axios
                 .get(
                     `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
                 )
                 .then(response => {
                     this.status = response.status;
+                    this.$emit("availability", this.isAvailable);
                 })
                 .catch(error => {
                     if (422 === error.response.status) {
                         this.errors = error.response.data.errors;
                     }
                     this.status = error.response.status;
+                    this.$emit("availability", this.isAvailable);
                 })
                 .then(() => (this.loading = false));
         },
